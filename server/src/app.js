@@ -6,6 +6,7 @@ import fasesRoutes from './modules/fases/fases.routes.js';
 import tiposDocumentoRoutes from './modules/tipos-documento/tiposDocumento.routes.js';
 import empresasRoutes from './modules/empresas/empresas.routes.js';
 import turmasRoutes from './modules/turmas/turmas.routes.js';
+import estagiosRoutes from './modules/estagios/estagios.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 export function criarApp() {
@@ -27,6 +28,7 @@ export function criarApp() {
   app.use('/api', tiposDocumentoRoutes);
   app.use('/api/empresas', empresasRoutes);
   app.use('/api/turmas', turmasRoutes);
+  app.use('/api/estagios', estagiosRoutes);
 
   // Handler de erros precisa ser registrado por último.
   app.use(errorHandler);
