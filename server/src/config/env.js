@@ -10,6 +10,11 @@ const envSchema = z.object({
     .min(32, 'JWT_SECRET deve ter no mínimo 32 caracteres'),
   JWT_EXPIRES_IN: z.string().default('7d'),
   PORT: z.coerce.number().int().positive().default(3000),
+
+  // Cloudinary — credenciais para upload de arquivos (PDF + imagens).
+  CLOUDINARY_CLOUD_NAME: z.string().min(1, 'CLOUDINARY_CLOUD_NAME é obrigatória'),
+  CLOUDINARY_API_KEY: z.string().min(1, 'CLOUDINARY_API_KEY é obrigatória'),
+  CLOUDINARY_API_SECRET: z.string().min(1, 'CLOUDINARY_API_SECRET é obrigatória'),
 });
 
 const parsed = envSchema.safeParse(process.env);

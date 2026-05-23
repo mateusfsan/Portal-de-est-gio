@@ -7,6 +7,7 @@ import tiposDocumentoRoutes from './modules/tipos-documento/tiposDocumento.route
 import empresasRoutes from './modules/empresas/empresas.routes.js';
 import turmasRoutes from './modules/turmas/turmas.routes.js';
 import estagiosRoutes from './modules/estagios/estagios.routes.js';
+import documentosRoutes from './modules/documentos/documentos.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 export function criarApp() {
@@ -29,6 +30,8 @@ export function criarApp() {
   app.use('/api/empresas', empresasRoutes);
   app.use('/api/turmas', turmasRoutes);
   app.use('/api/estagios', estagiosRoutes);
+  // Documentos expõe paths em /estagios/:estagioId/documentos E /documentos/:id.
+  app.use('/api', documentosRoutes);
 
   // Handler de erros precisa ser registrado por último.
   app.use(errorHandler);
