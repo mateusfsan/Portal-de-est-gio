@@ -4,6 +4,8 @@ import authRoutes from './modules/auth/auth.routes.js';
 import cursosRoutes from './modules/cursos/cursos.routes.js';
 import fasesRoutes from './modules/fases/fases.routes.js';
 import tiposDocumentoRoutes from './modules/tipos-documento/tiposDocumento.routes.js';
+import empresasRoutes from './modules/empresas/empresas.routes.js';
+import turmasRoutes from './modules/turmas/turmas.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 export function criarApp() {
@@ -23,6 +25,8 @@ export function criarApp() {
   // (ex.: `/cursos/:cursoId/fases`), por isso montam em `/api`.
   app.use('/api', fasesRoutes);
   app.use('/api', tiposDocumentoRoutes);
+  app.use('/api/empresas', empresasRoutes);
+  app.use('/api/turmas', turmasRoutes);
 
   // Handler de erros precisa ser registrado por último.
   app.use(errorHandler);
