@@ -13,3 +13,8 @@ export const estagioIdParam = z.object({
 export const uploadBodySchema = z.object({
   tipoDocumentoId: z.string().uuid('tipoDocumentoId inválido'),
 });
+
+// Filtros opcionais para GET /api/documentos (usado pela fila do orientador).
+export const listarQuerySchema = z.object({
+  status: z.enum(['pendente', 'enviado', 'em_analise', 'aprovado', 'reprovado']).optional(),
+});

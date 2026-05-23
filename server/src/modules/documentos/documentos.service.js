@@ -159,6 +159,34 @@ export async function buscarPorId(id, usuario) {
   return doc;
 }
 
+/**
+ * Lista documentos visíveis para o orientador (a "fila de análise").
+ * Filtra apenas documentos cujo estagio.turma.orientadorId === orientador.id,
+ * para que um orientador nunca veja documentos de turmas que não orienta.
+ *
+ * Filtros opcionais: `status` (qualquer um do enum DocumentoStatus).
+ * Ordenação: enviadoEm asc (FIFO — mais antigos primeiro, justo para o aluno).
+ */
+export async function listarFilaDoOrientador(orientadorId, { status } = {}) {
+  return prisma.documento.findMany({
+    where: {
+      ...(status && { status }),
+      estagio: { turma: { orientadorId } },
+    },
+    orderBy: [{ enviadoEm: 'asc' }],
+    include: {
+      tipoDocumento: { select: { id: true, nome: true, obrigatorio: true } },
+      estagio: {
+        select: {
+          id: true,
+          aluno: { select: { id: true, nome: true, ra: true } },
+          turma: { select: { id: true, periodo: true } },
+        },
+      },
+    },
+  });
+}
+
 // Wrapper que adapta `cloudinary.uploader.upload_stream` (callback-based)
 // para uma Promise — fica fácil usar com await no service.
 function uploadStream(buffer, opcoes) {

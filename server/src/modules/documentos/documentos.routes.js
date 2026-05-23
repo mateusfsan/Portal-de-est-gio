@@ -1,12 +1,15 @@
 import { Router } from 'express';
 import { auth } from '../../middleware/auth.js';
+import { exigePapel } from '../../middleware/rbac.js';
 import { validate } from '../../middleware/validate.js';
 import { uploadDocumento } from '../../lib/multer.js';
 import {
   estagioIdParam,
   idParam,
+  listarQuerySchema,
   uploadBodySchema,
 } from './documentos.schema.js';
+import { criarParecerSchema } from '../pareceres/pareceres.schema.js';
 import * as documentosController from './documentos.controller.js';
 
 const router = Router();
@@ -36,5 +39,24 @@ router.get(
 
 // Detalhe de um documento específico.
 router.get('/documentos/:id', auth, validate({ params: idParam }), documentosController.buscarPorId);
+
+// Fila de análise do orientador. Sempre filtra pela turma dele (no service).
+router.get(
+  '/documentos',
+  auth,
+  exigePapel('orientador'),
+  validate({ query: listarQuerySchema }),
+  documentosController.listarFila
+);
+
+// Parecer do orientador. Só orientador da turma do estágio (checagem fina
+// fica no service — exigePapel só barra outros papéis).
+router.post(
+  '/documentos/:id/parecer',
+  auth,
+  exigePapel('orientador'),
+  validate({ params: idParam, body: criarParecerSchema }),
+  documentosController.darParecer
+);
 
 export default router;
