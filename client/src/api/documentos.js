@@ -20,3 +20,19 @@ export async function upload({ estagioId, tipoDocumentoId, file }) {
   const { data } = await api.post(`/api/estagios/${estagioId}/documentos`, form);
   return data.documento;
 }
+
+export async function listarFila(status = 'enviado') {
+  const { data } = await api.get('/api/documentos', { params: { status } });
+  return data.documentos;
+}
+
+/**
+ * @param {{ documentoId: string, decisao: 'aprovado'|'reprovado', comentario: string }} args
+ */
+export async function darParecer({ documentoId, decisao, comentario }) {
+  const { data } = await api.post(`/api/documentos/${documentoId}/parecer`, {
+    decisao,
+    comentario,
+  });
+  return data;
+}
