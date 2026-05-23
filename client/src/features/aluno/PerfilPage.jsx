@@ -1,13 +1,84 @@
+import { useQuery } from '@tanstack/react-query';
+import { useAuth } from '../../hooks/useAuth.jsx';
+import { listarMeus } from '../../api/estagios.js';
 import Card from '../../components/Card/Card.jsx';
+import FaseAtualCard from './FaseAtualCard.jsx';
+import DocumentosLista from './DocumentosLista.jsx';
+import styles from './PerfilPage.module.css';
 
-// Placeholder — implementação real na sub-etapa 4.2.
+function iniciais(nome) {
+  return nome
+    .split(' ')
+    .map((p) => p[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+}
+
 export default function PerfilPage() {
+  const { usuario } = useAuth();
+  const { data: estagios, isLoading, error } = useQuery({
+    queryKey: ['estagios', 'meus'],
+    queryFn: listarMeus,
+  });
+
+  if (isLoading) return <Card>Carregando seus estágios…</Card>;
+  if (error) return <Card>Erro ao carregar estágios.</Card>;
+
+  // Caso o aluno ainda não tenha estágio criado pelo coordenador.
+  if (!estagios?.length) {
+    return (
+      <div className={styles.shell}>
+        <Card>
+          <div className={styles.cabecalho}>
+            <div className={styles.avatar}>{iniciais(usuario.nome)}</div>
+            <div>
+              <h1 className={styles.nome}>{usuario.nome}</h1>
+              <div className={styles.metadados}>
+                <span>{usuario.email}</span>
+                {usuario.ra && <span>RA {usuario.ra}</span>}
+              </div>
+            </div>
+          </div>
+        </Card>
+        <Card>
+          <p className={styles.vazio}>
+            Você ainda não foi matriculado em nenhum estágio. Procure a
+            coordenação.
+          </p>
+        </Card>
+      </div>
+    );
+  }
+
+  // Caso comum: 1 estágio. Para múltiplos, mostraríamos seletor — fora do
+  // escopo desta sub-etapa, usamos o primeiro.
+  const estagio = estagios[0];
+
   return (
-    <Card>
-      <h1>Perfil do aluno</h1>
-      <p style={{ color: 'var(--color-text-muted)' }}>
-        Em construção (sub-etapa 4.2).
-      </p>
-    </Card>
+    <div className={styles.shell}>
+      <Card>
+        <div className={styles.cabecalho}>
+          <div className={styles.avatar}>{iniciais(usuario.nome)}</div>
+          <div>
+            <h1 className={styles.nome}>{usuario.nome}</h1>
+            <div className={styles.metadados}>
+              <span>{usuario.email}</span>
+              {usuario.ra && <span>RA {usuario.ra}</span>}
+              <span>
+                {estagio.turma.curso.nome} — turma {estagio.turma.periodo}
+              </span>
+              <span>Estágio na {estagio.empresa.razaoSocial}</span>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <FaseAtualCard estagioId={estagio.id} />
+
+      <h2 className={styles.tituloSecao}>Documentos</h2>
+      <DocumentosLista estagioId={estagio.id} />
+    </div>
   );
 }
