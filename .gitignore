@@ -25,5 +25,6 @@ server/prisma/migrations/dev.db*
 # scratch / dados temporários de testes E2E
 .e2e-tmp/
 **/.e2e-tmp/
+.e2e-*.mjs
 server/_test_*.mjs
 server/_cleanup.mjs

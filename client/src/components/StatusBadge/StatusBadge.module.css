@@ -1,0 +1,35 @@
+/* Pílula com cor por status. Único lugar que mapeia status → cores
+   (CLAUDE.md 7.2). Não duplicar essa lógica em outros componentes. */
+.badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pendente {
+  background-color: var(--status-pendente-bg);
+  color: var(--status-pendente-text);
+}
+
+.enviado {
+  background-color: var(--status-enviado-bg);
+  color: var(--status-enviado-text);
+}
+
+.em_analise {
+  background-color: var(--status-em-analise-bg);
+  color: var(--status-em-analise-text);
+}
+
+.aprovado {
+  background-color: var(--status-aprovado-bg);
+  color: var(--status-aprovado-text);
+}
+
+.reprovado {
+  background-color: var(--status-reprovado-bg);
+  color: var(--status-reprovado-text);
+}
