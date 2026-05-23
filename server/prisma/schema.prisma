@@ -1,0 +1,160 @@
+// Schema do Portal de Estágio — fonte de verdade do banco.
+// Identificadores de código em inglês; nomes de domínio e valores de enum
+// em português para casar com o domínio (ver CLAUDE.md seções 3 e 6).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  // url  = pooler do Supabase (PgBouncer, porta 6543) — usado em runtime.
+  // directUrl = conexão direta (porta 5432) — usado por `prisma migrate`,
+  // que precisa de prepared statements que o pooler não suporta.
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Papel {
+  aluno
+  orientador
+  coordenador
+}
+
+enum DocumentoStatus {
+  pendente
+  enviado
+  em_analise
+  aprovado
+  reprovado
+}
+
+enum ParecerDecisao {
+  aprovado
+  reprovado
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  nome      String
+  email     String   @unique
+  senhaHash String   @map("senha_hash")
+  papel     Papel
+  ra        String?  @unique // preenchido apenas para alunos
+  fotoUrl   String?  @map("foto_url") // Cloudinary
+  criadoEm  DateTime @default(now()) @map("criado_em")
+
+  estagios     Estagio[]     @relation("AlunoEstagios")
+  turmas       Turma[]       @relation("OrientadorTurmas")
+  pareceres    Parecer[]
+  notificacoes Notificacao[]
+
+  @@map("usuarios")
+}
+
+model Curso {
+  id     String  @id @default(uuid())
+  nome   String
+  fases  Fase[]
+  turmas Turma[]
+
+  @@map("cursos")
+}
+
+model Fase {
+  id      String          @id @default(uuid())
+  cursoId String          @map("curso_id")
+  curso   Curso           @relation(fields: [cursoId], references: [id])
+  ordem   Int
+  nome    String
+  tipos   TipoDocumento[]
+
+  @@unique([cursoId, ordem])
+  @@map("fases")
+}
+
+model TipoDocumento {
+  id          String      @id @default(uuid())
+  faseId      String      @map("fase_id")
+  fase        Fase        @relation(fields: [faseId], references: [id])
+  nome        String
+  obrigatorio Boolean     @default(true)
+  documentos  Documento[]
+
+  @@map("tipos_documento")
+}
+
+model Turma {
+  id           String    @id @default(uuid())
+  cursoId      String    @map("curso_id")
+  curso        Curso     @relation(fields: [cursoId], references: [id])
+  orientadorId String    @map("orientador_id")
+  orientador   Usuario   @relation("OrientadorTurmas", fields: [orientadorId], references: [id])
+  periodo      String
+  estagios     Estagio[]
+
+  @@map("turmas")
+}
+
+model Empresa {
+  id              String    @id @default(uuid())
+  razaoSocial     String    @map("razao_social")
+  supervisorNome  String    @map("supervisor_nome")
+  supervisorEmail String    @map("supervisor_email")
+  estagios        Estagio[]
+
+  @@map("empresas")
+}
+
+model Estagio {
+  id         String      @id @default(uuid())
+  alunoId    String      @map("aluno_id")
+  aluno      Usuario     @relation("AlunoEstagios", fields: [alunoId], references: [id])
+  turmaId    String      @map("turma_id")
+  turma      Turma       @relation(fields: [turmaId], references: [id])
+  empresaId  String      @map("empresa_id")
+  empresa    Empresa     @relation(fields: [empresaId], references: [id])
+  inicio     DateTime
+  documentos Documento[]
+
+  @@map("estagios")
+}
+
+model Documento {
+  id              String          @id @default(uuid())
+  estagioId       String          @map("estagio_id")
+  estagio         Estagio         @relation(fields: [estagioId], references: [id])
+  tipoDocumentoId String          @map("tipo_documento_id")
+  tipoDocumento   TipoDocumento   @relation(fields: [tipoDocumentoId], references: [id])
+  versao          Int             @default(1)
+  status          DocumentoStatus @default(enviado)
+  arquivoUrl      String          @map("arquivo_url") // Cloudinary
+  enviadoEm       DateTime        @default(now()) @map("enviado_em")
+  pareceres       Parecer[]
+
+  @@map("documentos")
+}
+
+model Parecer {
+  id          String         @id @default(uuid())
+  documentoId String         @map("documento_id")
+  documento   Documento      @relation(fields: [documentoId], references: [id])
+  autorId     String         @map("autor_id")
+  autor       Usuario        @relation(fields: [autorId], references: [id])
+  decisao     ParecerDecisao
+  comentario  String
+  criadoEm    DateTime       @default(now()) @map("criado_em")
+
+  @@map("pareceres")
+}
+
+model Notificacao {
+  id        String   @id @default(uuid())
+  usuarioId String   @map("usuario_id")
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  mensagem  String
+  lida      Boolean  @default(false)
+  criadoEm  DateTime @default(now()) @map("criado_em")
+
+  @@map("notificacoes")
+}
