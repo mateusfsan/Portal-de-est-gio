@@ -1,0 +1,136 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.titulo {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  margin: 0;
+}
+
+.subtitulo {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin-top: var(--space-1);
+}
+
+.filtros {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.filtroCampo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 14rem;
+}
+
+.filtroLabel {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.select {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.grupos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.grupoHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.grupoNome {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin: 0;
+}
+
+.grupoContagem {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: var(--space-4);
+}
+
+.cardAluno {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.alunoNome {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin: 0;
+}
+
+.alunoMeta {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.progresso {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+.barraTrack {
+  flex: 1;
+  height: 6px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.barraFill {
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: width 200ms ease;
+}
+
+.concluidoFill {
+  background-color: var(--status-aprovado-text);
+}
+
+.vazio {
+  color: var(--color-text-muted);
+}
