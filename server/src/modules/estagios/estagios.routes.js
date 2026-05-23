@@ -42,4 +42,8 @@ router.delete(
 // GET /:id liberado para os 3 papéis — o service faz a checagem de propriedade.
 router.get('/:id', validate({ params: idParam }), estagiosController.buscarPorId);
 
+// Fase atual DERIVADA. Mesma regra de acesso do GET /:id.
+// IMPORTANTE: este endpoint NUNCA persiste; sempre recalcula (CLAUDE.md 2.4).
+router.get('/:id/fase-atual', validate({ params: idParam }), estagiosController.faseAtual);
+
 export default router;

@@ -1,5 +1,6 @@
 import { prisma } from '../../lib/prisma.js';
 import { AppError } from '../../lib/appError.js';
+import { calcularFaseAtual as calcular } from '../../lib/calcularFaseAtual.js';
 
 // `include` reutilizado: nunca devolver senhaHash do orientador/aluno;
 // trazer curso/turma/empresa para o cliente exibir contexto sem N+1.
@@ -108,6 +109,16 @@ export async function assegurarAcesso(estagioId, usuario) {
   if (usuario.papel === 'aluno' && estagio.alunoId === usuario.id) return estagio;
 
   throw new AppError('acesso negado', 403);
+}
+
+/**
+ * Wrapper sobre lib/calcularFaseAtual com checagem de acesso.
+ * Reusa `assegurarAcesso` para que aluno/orientador só vejam a fase
+ * atual dos estágios que podem acessar.
+ */
+export async function faseAtual(estagioId, usuario) {
+  await assegurarAcesso(estagioId, usuario);
+  return calcular(estagioId);
 }
 
 async function garantirEstagio(id) {

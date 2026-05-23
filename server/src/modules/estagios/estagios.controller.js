@@ -53,3 +53,12 @@ export async function remover(req, res, next) {
     next(err);
   }
 }
+
+export async function faseAtual(req, res, next) {
+  try {
+    const resultado = await estagiosService.faseAtual(req.params.id, req.usuario);
+    res.json(resultado);
+  } catch (err) {
+    next(err);
+  }
+}
