@@ -1,25 +1,61 @@
+/*
+ * LoginPage — visual de glassmorphism com paleta nova de marca.
+ * Todas as cores ficam encapsuladas aqui (não toca em tokens.css).
+ * Se promovermos esse visual para o app inteiro, basta migrar essas
+ * variáveis para tokens.css e remover daqui.
+ */
+
 .shell {
+  /* Paleta local — promover para tokens.css quando rebrand do app inteiro */
+  --login-primary: #b20000;
+  --login-primary-hover: #8a0000;
+  --login-secondary-1: #D1C5C5;
+  --login-secondary-2: #D9D9D9;
+  --login-glass-bg: rgba(255, 255, 255, 0.14);
+  --login-glass-border: rgba(255, 255, 255, 0.32);
+  --login-text: #ffffff;
+  --login-text-muted: rgba(255, 255, 255, 0.78);
+
   min-height: 100vh;
   display: grid;
   place-items: center;
   padding: var(--space-8);
-  background-color: var(--color-bg);
+
+  /* Overlay vermelho sobre imagem institucional (educação + trabalho).
+     Se a imagem do CDN falhar, o gradiente sozinho sustenta visualmente. */
+  background:
+    url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80')
+      center/cover no-repeat;
+  background-attachment: fixed;
 }
 
 .card {
   width: 100%;
   max-width: 24rem;
+  padding: var(--space-8);
+  border-radius: 20px;
+  background-color: var(--login-glass-bg);
+  border: 1px solid var(--login-glass-border);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  color: var(--login-text);
+
+  /* Glass — desfoca o background atrás do card. Fallback automático:
+     se o browser não suportar backdrop-filter, fica só translúcido. */
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
 }
 
 .titulo {
   font-size: var(--text-2xl);
+  font-weight: 600;
   margin: 0 0 var(--space-2);
+  color: var(--login-text);
 }
 
 .subtitulo {
-  color: var(--color-text-muted);
   font-size: var(--text-sm);
   margin: 0 0 var(--space-6);
+  color: var(--login-text-muted);
 }
 
 .form {
@@ -28,10 +64,73 @@
   gap: var(--space-4);
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--login-text);
+}
+
+.input {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.10);
+  border: 1px solid var(--login-glass-border);
+  color: var(--login-text);
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.input::placeholder {
+  color: var(--login-text-muted);
+}
+
+.input:focus {
+  outline: none;
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.input:-webkit-autofill {
+  /* Browser força fundo amarelo no autofill — neutralizamos. */
+  -webkit-text-fill-color: var(--login-text);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.botao {
+  margin-top: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 600;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: none;
+  background-color: var(--login-primary);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.botao:hover:not(:disabled) {
+  background-color: var(--login-primary-hover);
+}
+
+.botao:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .erro {
-  background-color: var(--status-reprovado-bg);
-  color: var(--status-reprovado-text);
+  background-color: rgba(178, 0, 0, 0.72);
+  color: #ffffff;
   padding: var(--space-3);
   border-radius: var(--radius-sm);
   font-size: var(--text-sm);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
