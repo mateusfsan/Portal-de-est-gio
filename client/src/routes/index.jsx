@@ -7,6 +7,7 @@ import PerfilPage from '../features/aluno/PerfilPage.jsx';
 import FilaPage from '../features/orientador/FilaPage.jsx';
 import CoordLayout from '../features/coordenador/CoordLayout.jsx';
 import DashboardPage from '../features/coordenador/DashboardPage.jsx';
+import UsuariosListPage from '../features/coordenador/usuarios/UsuariosListPage.jsx';
 import CursosListPage from '../features/coordenador/cursos/CursosListPage.jsx';
 import CursoDetalhePage from '../features/coordenador/cursos/CursoDetalhePage.jsx';
 import TurmasListPage from '../features/coordenador/turmas/TurmasListPage.jsx';
@@ -63,6 +64,7 @@ export default function Router() {
             }
           >
             <Route index element={<DashboardPage />} />
+            <Route path="usuarios" element={<UsuariosListPage />} />
             <Route path="cursos" element={<CursosListPage />} />
             <Route path="cursos/:id" element={<CursoDetalhePage />} />
             <Route path="turmas" element={<TurmasListPage />} />

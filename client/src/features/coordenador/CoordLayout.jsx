@@ -3,6 +3,7 @@ import styles from './CoordLayout.module.css';
 
 const TABS = [
   { to: '/coordenacao', label: 'Dashboard', end: true },
+  { to: '/coordenacao/usuarios', label: 'Usuários' },
   { to: '/coordenacao/cursos', label: 'Cursos' },
   { to: '/coordenacao/turmas', label: 'Turmas' },
   { to: '/coordenacao/empresas', label: 'Empresas' },

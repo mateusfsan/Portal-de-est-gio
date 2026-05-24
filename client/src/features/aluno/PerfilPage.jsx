@@ -2,19 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../../hooks/useAuth.jsx';
 import { listarMeus } from '../../api/estagios.js';
 import Card from '../../components/Card/Card.jsx';
+import Avatar from '../../components/Avatar/Avatar.jsx';
 import FaseAtualCard from './FaseAtualCard.jsx';
 import DocumentosLista from './DocumentosLista.jsx';
 import styles from './PerfilPage.module.css';
-
-function iniciais(nome) {
-  return nome
-    .split(' ')
-    .map((p) => p[0])
-    .filter(Boolean)
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();
-}
 
 export default function PerfilPage() {
   const { usuario } = useAuth();
@@ -32,7 +23,7 @@ export default function PerfilPage() {
       <div className={styles.shell}>
         <Card>
           <div className={styles.cabecalho}>
-            <div className={styles.avatar}>{iniciais(usuario.nome)}</div>
+            <Avatar nome={usuario.nome} fotoUrl={usuario.fotoUrl} size="lg" />
             <div>
               <h1 className={styles.nome}>{usuario.nome}</h1>
               <div className={styles.metadados}>
@@ -60,7 +51,7 @@ export default function PerfilPage() {
     <div className={styles.shell}>
       <Card>
         <div className={styles.cabecalho}>
-          <div className={styles.avatar}>{iniciais(usuario.nome)}</div>
+          <Avatar nome={usuario.nome} fotoUrl={usuario.fotoUrl} size="lg" />
           <div>
             <h1 className={styles.nome}>{usuario.nome}</h1>
             <div className={styles.metadados}>
