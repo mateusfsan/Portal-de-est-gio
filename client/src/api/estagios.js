@@ -27,3 +27,22 @@ export async function faseAtual(id) {
   const { data } = await api.get(`/api/estagios/${id}/fase-atual`);
   return data;
 }
+
+export async function criar({ alunoId, turmaId, empresaId, inicio }) {
+  const { data } = await api.post('/api/estagios', {
+    alunoId,
+    turmaId,
+    empresaId,
+    inicio,
+  });
+  return data.estagio;
+}
+
+export async function atualizar(id, { empresaId, inicio }) {
+  const { data } = await api.put(`/api/estagios/${id}`, { empresaId, inicio });
+  return data.estagio;
+}
+
+export async function remover(id) {
+  await api.delete(`/api/estagios/${id}`);
+}

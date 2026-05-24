@@ -1,0 +1,136 @@
+.voltar {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+}
+
+.voltar:hover {
+  text-decoration: underline;
+}
+
+.faseHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.faseNome {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin: 0;
+}
+
+.ordem {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-left: var(--space-2);
+}
+
+.botoesIcone {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.iconeButton {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: var(--text-base);
+}
+
+.iconeButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.iconeButton:not(:disabled):hover {
+  border-color: var(--color-text-muted);
+}
+
+.tiposLista {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.tipoLinha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-bg);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+}
+
+.tipoMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.badgeObrig {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.badgeOpc {
+  background-color: var(--status-pendente-bg);
+  color: var(--status-pendente-text);
+}
+
+.tipoAcoes {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.tipoButton {
+  padding: 2px var(--space-2);
+  font-size: var(--text-xs);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.tipoButton:hover {
+  border-color: var(--color-text-muted);
+}
+
+.tipoButtonDanger {
+  color: var(--status-reprovado-text);
+  border-color: var(--status-reprovado-text);
+}
+
+.semTipos {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+.faseAcoes {
+  margin-top: var(--space-3);
+}
+
+.semFases {
+  color: var(--color-text-muted);
+  margin: 0;
+}

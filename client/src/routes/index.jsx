@@ -5,7 +5,13 @@ import Layout from '../components/Layout/Layout.jsx';
 import LoginPage from '../features/auth/LoginPage.jsx';
 import PerfilPage from '../features/aluno/PerfilPage.jsx';
 import FilaPage from '../features/orientador/FilaPage.jsx';
+import CoordLayout from '../features/coordenador/CoordLayout.jsx';
 import DashboardPage from '../features/coordenador/DashboardPage.jsx';
+import CursosListPage from '../features/coordenador/cursos/CursosListPage.jsx';
+import CursoDetalhePage from '../features/coordenador/cursos/CursoDetalhePage.jsx';
+import TurmasListPage from '../features/coordenador/turmas/TurmasListPage.jsx';
+import EmpresasListPage from '../features/coordenador/empresas/EmpresasListPage.jsx';
+import EstagiosListPage from '../features/coordenador/estagios/EstagiosListPage.jsx';
 
 /**
  * Redireciona "/" para a home do papel do usuário logado.
@@ -46,14 +52,24 @@ export default function Router() {
               </ProtectedRoute>
             }
           />
+
+          {/* Coordenacao: layout próprio com tabs + sub-rotas. */}
           <Route
             path="/coordenacao"
             element={
               <ProtectedRoute papeis={['coordenador']}>
-                <DashboardPage />
+                <CoordLayout />
               </ProtectedRoute>
             }
-          />
+          >
+            <Route index element={<DashboardPage />} />
+            <Route path="cursos" element={<CursosListPage />} />
+            <Route path="cursos/:id" element={<CursoDetalhePage />} />
+            <Route path="turmas" element={<TurmasListPage />} />
+            <Route path="empresas" element={<EmpresasListPage />} />
+            <Route path="estagios" element={<EstagiosListPage />} />
+          </Route>
+
           <Route path="/" element={<RedirectToHome />} />
         </Route>
 
